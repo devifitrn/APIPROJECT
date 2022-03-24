@@ -9,10 +9,10 @@ namespace API.Repository.Data
 {
     public class EducationRepository : GeneralRepository<MyContext, Education, int>
     {
-        private readonly MyContext context;
+        private readonly MyContext myContext;
         public EducationRepository(MyContext myContext) : base(myContext)
         {
-            this.context = myContext;
+            this.myContext = myContext;
         }
     }
 }

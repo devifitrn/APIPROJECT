@@ -21,31 +21,34 @@ namespace API.Controllers
 
     public class EmployeesController : BasesController<Employee, EmployeeRepository, string>
     {
-        /*private readonly EmployeeRepository employeeRepository;
-        private readonly MyContext myContext;*/
+        private readonly EmployeeRepository employeeRepository;
+        private readonly MyContext myContext;
 
-        public EmployeesController(EmployeeRepository employeeRepository) : base(employeeRepository)
+        public object NIK { get; private set; }
+
+        public EmployeesController(EmployeeRepository employeeRepository, MyContext myContext) : base(employeeRepository)
         {
-           /* this.employeeRepository = employeeRepository;
-            this.myContext = myContext;*/
+            this.employeeRepository = employeeRepository;
+            this.myContext = myContext;
         }
-    }
-}
+    
+
     /*public class EmployeesController : ControllerBase
     {
         private readonly EmployeeRepository employeeRepository;
         public EmployeesController(EmployeeRepository employeeRepository)
         {
             this.employeeRepository = employeeRepository;
-        }
+        }*/
 
-
+/*
         [HttpPost]
-        public ActionResult Post(Employee employee)
+        [Route("/Insert")]
+        public ActionResult Inserted(Employee employee)
         {
             try
             {
-                var insert = employeeRepository.Insert(employee);
+                var insert = employeeRepository.Inserted(employee);
                 return insert switch
                 {
                     0 => Ok(new { status = HttpStatusCode.OK, result = employee, message = "Insert Data Successfull" }),
@@ -61,9 +64,9 @@ namespace API.Controllers
                 return StatusCode(500, new { status = HttpStatusCode.InternalServerError, result = employeeRepository.Get(), message = "terjadi kesalahan" });
             }
            
-        }
+        }*/
 
-        [HttpGet]
+        /*[HttpGet]
         public ActionResult Get()
         {
             try {
@@ -149,10 +152,9 @@ namespace API.Controllers
             }
             return Ok(new { status = HttpStatusCode.OK, result = employeeRepository.Get(employee.NIK), message = "Data terupdate" });
         }
+*/
 
-
-        *//*[HttpPatch]
-        public ActionResult Patch()*//*
+         //*[HttpPatch]
+        //public ActionResult Patch()*//*
     }
 }
-*/
