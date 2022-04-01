@@ -18,7 +18,7 @@ namespace API.ViewModel
         public Gender Gender { get; set; }
         
         public string Password { get; set; }
-
+        public int RoleId { get; set; }
         public string Degree { get; set; }
         public string GPA { get; set; }
         public int UniversityId { get; set; }

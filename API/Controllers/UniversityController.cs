@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace API.Controllers
@@ -15,13 +16,26 @@ namespace API.Controllers
     [ApiController]
     public class UniversityController : BasesController<University, UniversityRepository, int>
     {
-       /* private readonly UniversityRepository universityRepository;
-        private readonly MyContext myContext;*/
+        private readonly UniversityRepository universityRepository;
+        private readonly MyContext myContext;
 
         public UniversityController(UniversityRepository universityRepository, MyContext myContext) : base(universityRepository)
         {
-            /*this.universityRepository = universityRepository;
-            this.myContext = myContext;*/
+            this.universityRepository = universityRepository;
+            this.myContext = myContext;
+        }
+        [HttpPost("GetIdUniv")]
+        public ActionResult GetIdUniv(University university)
+        {
+            int result = universityRepository.GetIdUniv(university);
+            if (result > 0)
+            {
+                return Ok(new { Status = HttpStatusCode.OK, result = university, message = "Berhasil menambahkan data" });
+            }
+            else
+            {
+                return StatusCode(404, new { status = HttpStatusCode.BadRequest, result = university, message = "Gagal menambahkan data" });
+            }
         }
     }
 }

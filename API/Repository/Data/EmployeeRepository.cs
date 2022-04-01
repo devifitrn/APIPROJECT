@@ -17,6 +17,8 @@ namespace API.Repository.Data
             this.myContext = myContext;
             this._configuration = configuration;
         }
+
+
         /*public int Inserted(Employee employee)
         {
             int count = myContext.Employees.ToList().Count;

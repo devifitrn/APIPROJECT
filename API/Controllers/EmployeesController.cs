@@ -6,6 +6,7 @@ using API.Repository.Data;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -31,6 +32,20 @@ namespace API.Controllers
             this.employeeRepository = employeeRepository;
             this.myContext = myContext;
         }
+
+        [HttpGet("TestCORS")]
+        public ActionResult TestCORS()
+        {
+                return Ok(new { status = HttpStatusCode.OK, message = "Test CORS berhasil" });
+             
+        }
+
+
+   
+        
+
+
+
     
 
     /*public class EmployeesController : ControllerBase

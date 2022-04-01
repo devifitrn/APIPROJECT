@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -14,7 +15,10 @@ namespace API.Models
         public string NIK { get; set; }
         [Required]
         public int EducationId { get; set; }
-        public Education Education { get; set; }
-        public Account Account { get; set; }
+
+        [JsonIgnore]
+        public virtual Education Education { get; set; }
+        [JsonIgnore]
+        public virtual Account Account { get; set; }
     }
 }
