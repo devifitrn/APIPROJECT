@@ -1,0 +1,314 @@
+﻿@*@using Microsoft.AspNetCore.Http*@
+@{
+    ViewData["Title"] = "Table_Employee";
+    Layout = "_AdminLayout";
+}
+
+@*===========================================================Title================================================================*@
+
+<div class="d-flex text-center mt-3 ">
+    <h1>Tabel Employee</h1>
+</div>
+
+@*=======================================================Button Register==========================================================*@
+<button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#registerModal">
+    Form Register
+</button>
+
+@*========================================================Table_Employee==========================================================*@
+<table style="width:100%" class="text-center table table-hover table-striped cell-border tableEmployee " id="tableEmployee">
+    <thead class="thead-dark mt-4">
+        <tr>
+            <th>No</th>
+            <th>NIK</th>
+            <th>Full Name</th>
+            <th>Phone</th>
+            <th>Email</th>
+            <th>Gender</th>
+            <th>BirthDate</th>
+            <th>Salary</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+</table>
+<!----------------------------------------------------------- Chart---------------------------------------------------------------->
+
+<div class="row mt-4">
+
+    <!-- Pie Chart Gender -->
+    <div class="col-xl-6">
+        <div class="card shadow mb-4">
+            <!-- Card Header - Dropdown -->
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary center">Gender</h6>
+            </div>
+            <!-- Card Body -->
+            <div class="card-body">
+                <options id="chartGender"></options>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bar University -->
+    <div class="col-xl-6">
+        <div class="card shadow mb-4">
+            <!-- Card Header - Dropdown -->
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">University</h6>
+            </div>
+            <!-- Card Body -->
+            <div class="card-body">
+                <div id="chartUniversity"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!------------------------------------------------------- Modal Register---------------------------------------------------------->
+<div class="modal fade bd-example-modal-lg " id="registerModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Register</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-lg">
+                <div class="container">
+                    <form onsubmit="Insert()">
+                        <div class="form-row">
+                            <div class="col mb-1">
+                                <label for="firstname">First Name</label>
+                                <input type="text" class="form-control is-valid" id="firstname" placeholder="First name" value="Devi" required>
+                                <div class="valid-feedback">
+                                    Looks good!
+                                </div>
+                            </div>
+                            <div class="col mb-1">
+                                <label for="lastname">Last Name</label>
+                                <input type="text" class="form-control is-valid" id="lastname" placeholder="Last name" value="Fitria" required>
+                                <div class="valid-feedback">
+                                    Looks good!
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-md-4 mb-1">
+                                <label for="birthdate">Birthdate</label>
+                                <input type="date" class="form-control" id="birthdate" placeholder="birthdate" required>
+                                <div class="invalid-feedback">
+                                    Please provide a valid Birthdate
+                                </div>
+                            </div>
+                            <div class="col mb-1">
+                                <div class="form-group">
+                                    <label type="number" for="gender">Gender :</label>
+                                    <select class="custom-select" id="gender">
+                                        <option value="">Choose Gender</option>
+                                        <option value="0">Male</option>
+                                        <option value="1">Female</option>
+                                    </select>
+                                </div>
+                                <div class="invalid-feedback">
+                                    Please provide a valid Gender.
+                                </div>
+                            </div>
+                            <div class="col mb-1">
+                                <label for="salary">Salary</label>
+                                <input type="number" class="form-control is-invalid" id="salary" placeholder="10000000" required>
+                                <div class="invalid-feedback">
+                                    Please provide a valid Salary.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col mb-1">
+                                <label for="phone">Phone</label>
+                                <input type="text" class="form-control is-invalid" id="phone" placeholder="08xxx" required>
+                                <div class="invalid-feedback">
+                                    Please provide a valid Phone Number
+                                </div>
+                            </div>
+                            <div class="col mb-1">
+                                <label for="email">Email</label>
+                                <input type="text" class="form-control is-invalid" id="email" placeholder="Gmail.com" required>
+                                <div class="invalid-feedback">
+                                    Please provide a valid Gmail
+                                </div>
+                            </div>
+                            <div class="col mb-1">
+                                <label for="password">Password</label>
+                                <input type="text" class="form-control is-invalid" id="password" placeholder="password" required>
+                                <div class="invalid-feedback">
+                                    Please provide a valid Password.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col mb-1">
+                                <label type="text" for="degree">Degree</label>
+                                <select class="custom-select" id="degree">
+                                    <option>Choose Degree</option>
+                                    <option>S3</option>
+                                    <option>S2</option>
+                                    <option>S1/D4</option>
+                                    <option>D3</option>
+                                </select>
+                            </div>
+                            <div class="col mb-1">
+                                <label for="gpa">GPA</label>
+                                <input type="text" class="form-control is-invalid" id="gpa" placeholder="e.g 4.00" required>
+                                <div class="invalid-feedback">
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-1">
+                                <div class="form-group">
+                                    <label for="instansi">Instansi</label>
+                                    <select class="form-control" id="instansi" placeholder="Zip" required>
+                                        <option value="7">Universitas Pendidikan Indonesia</option>
+                                        <option value="8">Universitas Padjajaran</option>
+                                        <option value="9">Institut Teknologi Bandung</option>
+                                    </select>
+                                </div>
+                                <div class="invalid-feedback">
+
+                                </div>
+                            </div>
+                            <div class="col mb-1">
+                                <label type="number" for="roleid">RoleId</label>
+                                <select class="custom-select" id="roleid">
+                                    <option value="3">Employee</option>
+                                </select>
+                                <div class="invalid-feedback">
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="form-check">
+                                <input class="form-check-input is-invalid" type="checkbox" value="" id="invalidCheck3" required>
+                                <label class="form-check-label" for="invalidCheck3">
+                                    Agree to terms and conditions
+                                </label>
+                                <div class="invalid-feedback">
+                                    You must agree before submitting.
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary m-4" type="submit">Submit form</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!------------------------------------------------------- Modal Edited------------------------------------------------------------>
+<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" id="edited">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalCenterTitle">Edit Data Employee</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form onsubmit="Update()">
+                    <div class="form-row">
+                        <div class="col-md mb-3">
+                            <label for="nik"></label>
+                            <input type="hidden" class="form-control" id="nik" readonly required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-md mb-3">
+                            <label for="editfirstname">First Name</label>
+                            <input type="text" class="form-control" id="editfirstname" required>
+                            <div class="invalid-feedback">
+                                Please choose a First Name.
+                            </div>
+                        </div>
+
+                        <div class="col-md mb-3">
+                            <label for="editlastname">Last Name</label>
+                            <input type="text" class="form-control" id="editlastname" required>
+                            <div class="invalid-feedback">
+                                Please choose a Last Name.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <label for="editgender">Gender</label>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-md mb-3">
+                            <div class="custom-control custom-radio">
+                                <div>
+                                    <input type="radio" class="custom-control-input" id="genderedit" name="genderedit" value="0" required>
+                                    <label class="custom-control-label" for="genderedit">Male</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md mb-3">
+                            <div class="custom-control custom-radio">
+                                <div>
+                                    <input type="radio" class="custom-control-input" id="genderedit1" name="genderedit" value="1" required>
+                                    <label class="custom-control-label" for="genderedit1">Female</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-md mb-3">
+                            <label for="editbirthdate">Birth Date</label>
+                            <input type="date" class="form-control" id="editbirthdate" required>
+                            <div class="invalid-feedback">
+                                Please choose Birth Date.
+                            </div>
+                        </div>
+
+                        <div class="col-md mb-3">
+                            <label for="editsalary">Salary</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="inputGroupPrepend">Rp</span>
+                                </div>
+                                <input type="number" class="form-control" id="editsalary" aria-describedby="inputGroupPrepend" required>
+                                <div class="invalid-feedback">
+                                    Please input your salary.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-md mt-2">
+                            <label for="editphone">Phone Number</label>
+                            <input type="text" class="form-control" id="editphone" required>
+                            <div class="invalid-feedback">
+                                Please provide a Phone Number.
+                            </div>
+                        </div>
+                        <div class="col-md mb-3">
+                            <label for="editemail">Email</label>
+                            <input type="text" class="form-control" id="editemail" required>
+                            <div class="invalid-feedback">
+                                Please input your Email.
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary edit" id="edit">Submit</button>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+@*<script>
+    const token = '@Context.Session.GetString("JWToken")';
+    const url = "https://localhost:44342/api/home"
+</script>*@
+
+

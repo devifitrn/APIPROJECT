@@ -19,8 +19,6 @@ namespace API.Models
         [DataType(DataType.PhoneNumber)]
         public string Phone { get; set; }
 
-        [DataType(DataType.DateTime)]
-        [DisplayFormat(DataFormatString = "{yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime BirthDate { get; set; }
         public int Salary { get; set; }
 

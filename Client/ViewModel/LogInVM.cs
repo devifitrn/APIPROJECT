@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace API.ViewModel
+namespace Client.ViewModel
 {
-    public class LoginVM
+    public class LogInVM
     {
         public string Email { get; set; }
         public string Password { get; set; }

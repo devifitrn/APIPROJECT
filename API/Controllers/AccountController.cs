@@ -30,18 +30,21 @@ namespace API.Controllers
         [HttpPost("Register")]
         public ActionResult Register(RegisterVM registerVM)
         {
-            //return Ok(accountRepository.Register(registerVM));
-            var register = accountRepository.Register(registerVM);
-            return register switch
-            {
-                0 => Ok(new { status = HttpStatusCode.OK, result = registerVM, message = "Register Data Successfull" }),
-                1 => BadRequest(new { status = HttpStatusCode.BadRequest, result = registerVM, message = "Register Data Failed (NIK Duplicate)" }),
-                2 => BadRequest(new { status = HttpStatusCode.BadRequest, result = registerVM, message = "Register Data Failed (Email & Phone Duplicate)"}),
-                3 => BadRequest(new { status = HttpStatusCode.BadRequest, result = registerVM, message = "Register Data Failed (Email Duplicate)" }),
-                4 => BadRequest(new { status = HttpStatusCode.BadRequest, result = registerVM, message = "Register Data Failed (Phone Duplicate)" }),
-                5 => BadRequest(new { status = HttpStatusCode.BadRequest, result = registerVM, message = "Register Data Failed (RoleId Wrong!!)" }),
-                _ => BadRequest(new { status = HttpStatusCode.BadRequest, message = "Register Failed" })
-            };
+            
+                /*var register = accountRepository.Register(registerVM);
+                return register switch
+                {
+                    0 => Ok(new { status = HttpStatusCode.OK, result = registerVM, message = "Register Data Successfull" }),
+                    1 => BadRequest(new { status = HttpStatusCode.BadRequest, result = registerVM, message = "Register Data Failed (NIK Duplicate)" }),
+                    2 => BadRequest(new { status = HttpStatusCode.BadRequest, result = registerVM, message = "Register Data Failed (Email & Phone Duplicate)" }),
+                    3 => BadRequest(new { status = HttpStatusCode.BadRequest, result = registerVM, message = "Register Data Failed (Email Duplicate)" }),
+                    4 => BadRequest(new { status = HttpStatusCode.BadRequest, result = registerVM, message = "Register Data Failed (Phone Duplicate)" }),
+                    5 => BadRequest(new { status = HttpStatusCode.BadRequest, result = registerVM, message = "Register Data Failed (RoleId Wrong!!)" }),
+                    _ => BadRequest(new { status = HttpStatusCode.BadRequest, message = "Register Failed" })
+                };*/
+            
+            return Ok(accountRepository.Register(registerVM));
+            
         }
 
         
@@ -54,35 +57,78 @@ namespace API.Controllers
             return login switch
             {
                 
-                "1" => BadRequest(new { status = HttpStatusCode.BadRequest, result = login, message = "Login Failed (Password salah)" }),
-                "2" => BadRequest(new { status = HttpStatusCode.BadRequest, result = login, message = "Login Failed (Email dan password salah)" }),
-                _ => Ok(new { status = HttpStatusCode.OK, result = login, message = "Login Successfull" })
+                "1" => BadRequest(new { status = HttpStatusCode.BadRequest, message = "Login Failed (Password salah)" }),
+                "2" => BadRequest(new { status = HttpStatusCode.BadRequest, message = "Login Failed (Email dan password salah)" }),
+                _ => Ok(new { status = HttpStatusCode.OK, JWT = login, message = "Login Successfull" })
                 // _ => NotFound(new { status = HttpStatusCode.NotFound, message = "error" })
             };
 
         }
-
-        [Authorize]
+        [Authorize(Roles = "Employee, Manager")]
         [HttpGet("TestJWT")]
         public ActionResult TestJWT()
         {
             return Ok("Test JWT berhasil");
         }
 
-        [Authorize(Roles = "Directur, Manager")]
-        [HttpGet("MasterEmployeeData")]
+        //[Authorize(Roles = "Directur, Manager")]
+        [HttpGet("Master")]
         public ActionResult MasterData()
         {
-            var getMaster = accountRepository.MasterEmployeeData();
-            if (getMaster != null)
+            var getMaster = accountRepository.Master();
+            return Ok(getMaster);
+            /*if (getMaster != null)
             {
                 return Ok(new { status = HttpStatusCode.OK, result = getMaster, message = "Data berhasil ditampilkan" });
             }
             else
             {
                 return BadRequest(new { status = HttpStatusCode.BadRequest, result = getMaster, message = "Data tidak ditemukan" });
+            }*/
+        }
+
+        [HttpGet("master/{nik}")]
+        // [Authorize(Roles = "Director, Manager")]
+        public ActionResult GetDataByNIK(string nik)
+        {
+            try
+            {
+                var result = accountRepository.GetDataByNIK(nik);
+
+                return result switch
+                {
+                    0 => Ok(new { status = HttpStatusCode.OK, result = result, message = "Get berhasil" }),
+                    1 => BadRequest(new { status = HttpStatusCode.BadRequest, message = "Get Failed " }),
+                    _ => BadRequest(new { status = HttpStatusCode.BadRequest, message = "Get gagal!" })
+                };
+            }
+            catch (Exception e)
+            {
+                return NotFound(new { status = HttpStatusCode.NotFound, message = "error" });
             }
         }
+
+        [HttpPut("master/update")]
+        public ActionResult UpdateAccount(UpdateVM updateVM)
+        {
+            try
+            {
+                var result = accountRepository.UpdateAccount(updateVM);
+                return result switch
+                {
+                    0 => Ok(new { status = HttpStatusCode.OK, result = result, message = "Update berhasil" }),
+                    1 => BadRequest(new { status = HttpStatusCode.BadRequest, message = "Update Failed (pgone duplicate)" }),
+                    2 => BadRequest(new { status = HttpStatusCode.BadRequest, message = "Email sudah digunakan!" }),
+                    3 => NotFound(new { status = HttpStatusCode.NotFound, message = "Role employee tidak ada, silahkan tambah role employee terlebih dahulu!" }),
+                    _ => BadRequest(new { status = HttpStatusCode.BadRequest, message = "Update gagal!" })
+                };
+            }
+            catch (Exception e)
+            {
+                return NotFound(new { status = HttpStatusCode.NotFound, message = "error" });
+            }
+        }
+
 
         [HttpPost("ForgotPass")]
         public ActionResult ForgotPassword(ForgotPassVM forgotPassVM)

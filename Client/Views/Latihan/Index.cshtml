@@ -1,0 +1,157 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+    Layout = "_AdminLayout";
+}
+
+@*<div class="text-center sticky">
+        <h1 class="display-4">Example</h1>
+        <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    </div>
+
+
+    <div class="container mt-1 border-green">
+        <div class="row mt-4">
+            <div class="col border-blue ">
+                Tincidunt integer eu augue augue nunc elit dolor, luctus placerat scelerisque euismod, iaculis eu lacus nunc mi elit, vehicula ut laoreet ac, aliquam sit amet justo nunc tempor, metus vel.
+                Placerat suscipit, orci nisl iaculis eros, a tincidunt nisi odio eget lorem nulla condimentum tempor mattis ut vitae feugiat augue cras ut metus a risus iaculis scelerisque eu ac ante.
+            </div>
+            <div class="col">
+                <div class="row ml-4 border-blue">
+                    Tincidunt integer eu augue augue nunc elit dolor, luctus placerat scelerisque euismod, iaculis eu lacus nunc mi elit, vehicula ut laoreet ac, aliquam sit amet justo nunc tempor, metus vel.
+                    Placerat suscipit, orci nisl iaculis eros, a tincidunt nisi odio eget lorem nulla condimentum tempor mattis ut vitae feugiat augue cras ut metus a risus iaculis scelerisque eu ac ante.
+                </div>
+                <div class="row ml-4 border-blue">
+                    Tincidunt integer eu augue augue nunc elit dolor, luctus placerat scelerisque euismod, iaculis eu lacus nunc mi elit, vehicula ut laoreet ac, aliquam sit amet justo nunc tempor, metus vel.
+                    Placerat suscipit, orci nisl iaculis eros, a tincidunt nisi odio eget lorem nulla condimentum tempor mattis ut vitae feugiat augue cras ut metus a risus iaculis scelerisque eu ac ante.
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <footer class="border-top footer text-muted">
+        <div class="row ">
+            <div class="col">
+                &copy; 2022 - Client - <a asp-area="" asp-controller="Home" asp-action="">Location</a>
+            </div>
+            <div class="col mr-4">
+                <a href="#" class="fa fa-facebook"></a>
+                <a href="#" class="fa fa-twitter"></a>
+                <a href="#" class="fa fa-instagram"></a>
+                <a href="#" class="fa fa-linkedin"></a>
+            </div>
+        </div>
+    </footer>*@
+@*<table id="example" style="width:100%" class="text-center table table-hover table-striped">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Position</th>
+            <th scope="col">Office</th>
+            <th scope="col">Age</th>
+            <th scope="col">Start Date</th>
+        </tr>
+</table>
+*@
+@*<button id="button">Row count</button>*@
+<table id ="example" style="width:100%" class="text-center table table-hover table-striped cell-border data-Pokemon">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">No</th>
+            <th scope="col">Name</th>
+            <th scope="col">Detail</th>
+        </tr>
+    </thead>
+    <tbody id="dataPokemon">
+    </tbody>
+</table>
+
+<!-- Modal -->
+<div class="modal fade bd-example-modal-lg" id="detailModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Pokemon Detail</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="text-center" id="detailImage">
+                        <img class="img-pokemon d-block mx-auto w-50" src="" alt="" width="200" height="200" />
+                    </div>
+                    <div class="row text-center">
+                        <h3 class="species-name"></h3>
+                    </div>
+                    <div class="row">
+                        <span class=" species badge badge-pill badge-info" style="font-size: 15px; margin: auto">""</span>
+                    </div>
+
+                    <!-- Navigation -->
+                    <div class="card text-center mt-4">
+                        <div class="card-header">
+
+                            <ul class="nav nav-tabs card-header-tabs">
+
+                                <li class="nav-item">
+                                    <a class="nav-link active" href="#">Details</a>
+                                </li>
+                                @* <li class="nav-item">
+                    <a class="2 nav-link active" href="#">Stat</a>
+                </li>*@@*
+                                <li class="nav-item">
+                                    <a class="pointer-event nav-link active" href="#">indicated</a>
+                                </li>*@
+                            </ul>
+                        </div>
+                        <div class="card-body">
+                            <div class="text-center bg-dark" style="color: white "><b>Information</b></div>
+                            <div style="color: black ">
+                                <div class="row mt-1">
+                                    <div class="col"><b>Weight</b></div>
+                                    <div class="sizew weight col"></div>
+                                </div>
+                                <div class="row mt-1">
+                                    <div class="col"><b>Height</b></div>
+                                    <div class="sizeh height col"></div>
+                                </div>
+                                <div class="row mt-1">
+                                    <div class="col"><b>Ability</b></div>
+                                    <div class="ability col"></div>
+                                </div>
+
+                                <div class="row mt-1">
+                                    <div class="col"><b>Type</b></div>
+                                    <div class="type col"></div>
+                                </div>
+                                <div class="text-center bg-dark mt-2" style="color: white "><b>Base stat</b></div>
+                                @*<div class="row mt-1">
+                                    <div class="col"><b>Stat</b></div>
+                                    <div class="status col"></div>
+                                </div>*@
+                                <div class="progress mt-1">
+                                    <div class="progress-bar-striped bg-success active hp" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                                <div class="progress mt-1">
+                                    <div class="progress-bar-striped bg-info active attack" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                                <div class="progress mt-1">
+                                    <div class="progress-bar-striped bg-warning active defense" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                                <div class="progress mt-1">
+                                    <div class="progress-bar-striped bg-danger active speed" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                            @*<a href="#" class="btn btn-primary">next</a>*@
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="Edit()">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

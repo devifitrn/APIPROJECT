@@ -27,22 +27,25 @@ namespace API.Base
         {
             /*repository.Insert(entity);
             return Ok(new { Status = HttpStatusCode.OK, result = entity, message = "Berhasil menambahkan data" });*/
-            var result = repository.Insert(entity);
-            if (result > 0)
-            {
-                return Ok(new { Status = HttpStatusCode.OK, result = entity, message = "Berhasil menambahkan data" });
-            }
-            else
-            {
-                return StatusCode(404, new { status = HttpStatusCode.BadRequest, result = entity, message = "Gagal menambahkan data" });
-            }
+            /* var result = repository.Insert(entity);
+             if (result > 0)
+             {
+                 return Ok(new { Status = HttpStatusCode.OK, result = entity, message = "Berhasil menambahkan data" });
+             }
+             else
+             {
+                 return StatusCode(404, new { status = HttpStatusCode.BadRequest, result = entity, message = "Gagal menambahkan data" });
+             }*/
+            return Ok(entity);
 
         }
 
         [HttpGet]
         public ActionResult<Entity> Get()
         {
-            try
+            
+            return Ok(repository.Get());
+            /*try
             {
                 int count = repository.Get().ToList().Count;
                 if (count > 0)
@@ -58,13 +61,14 @@ namespace API.Base
             catch
             {
                 return StatusCode(500, new { status = HttpStatusCode.InternalServerError, result = repository.Get(), message = "terjadi kesalahan" });
-            }
+            }*/
         }
 
         [HttpGet("{Key}")]
         public ActionResult<Entity> Get(Key key)
         {
-            try
+            return Ok(repository.Get(key));
+            /*try
             {
                 if (repository.Get(key) == null)
                 {
@@ -79,7 +83,7 @@ namespace API.Base
             catch
             {
                 return StatusCode(500, new { status = HttpStatusCode.InternalServerError, result = repository.Get(key), message = "terjadi kesalahan" });
-            }
+            }*/
         }
 
         [HttpDelete("{Key}")]
@@ -102,8 +106,9 @@ namespace API.Base
         [HttpPut]
         public ActionResult<Entity> UpdateData(Entity entity, Key key)
         {
-
-            try
+            var result = repository.Update(entity, key);
+            return Ok(result);
+            /*try
             {
                var result = repository.Update(entity, key);
             }
@@ -114,7 +119,7 @@ namespace API.Base
                     return StatusCode(404, new { status = HttpStatusCode.NotFound, result = "" , message = "Data tidak ada" });
                 }
             }
-            return Ok(new { status = HttpStatusCode.OK, result = "" , message = "Data terupdate" });
+            return Ok(new { status = HttpStatusCode.OK, result = "" , message = "Data terupdate" });*/
 
         }
 

@@ -40,6 +40,7 @@ namespace API.Repository.Data
                 BirthDate = registerVM.BirthDate,
                 Salary = registerVM.Salary,
                 Email = registerVM.Email
+                
             };
             var acc = new Account
             {
@@ -175,7 +176,7 @@ namespace API.Repository.Data
 
        
 
-        public IEnumerable MasterEmployeeData()
+        public IEnumerable Master()
         {
             var masterData = (from emp in myContext.Employees
                               join acc in myContext.Account on emp.NIK equals acc.NIK
@@ -207,6 +208,104 @@ namespace API.Repository.Data
                               }).ToList();
 
             return masterData;
+        }
+
+        public int GetDataByNIK(string nik)
+        {
+            var isExist = myContext.Employees.Find(nik);
+            if (isExist == null)
+            {
+                return 1;
+            };
+
+            var getAccount = (
+               from employee in myContext.Employees
+               join account in myContext.Account
+                  on employee.NIK equals account.NIK
+               join profiling in myContext.Profillings
+                  on account.NIK equals profiling.NIK
+               join education in myContext.Educations
+                  on profiling.EducationId equals education.id
+               join university in myContext.Universities
+                  on education.UniversityId equals university.Id
+               where employee.NIK == nik
+               select new
+               {
+                   NIK = employee.NIK,
+                   FullName = employee.FirstName + " " + employee.LastName,
+                   employee.Phone,
+                   Gender = ((Gender)employee.Gender).ToString(),
+                   employee.Email,
+                   employee.BirthDate,
+                   employee.Salary,
+                   Education_id = profiling.EducationId,
+                   education.GPA,
+                   education.Degree,
+                   UniversityName = university.Name,
+                   UniversityId = university.Id,
+                   Roles = (from account in myContext.AccountRoles
+                            join role in myContext.Roles
+                         on account.RoleId equals role.RoleId
+                            where account.AccountId == employee.NIK
+                            select new
+                            {
+                                role.RoleName
+                            }).Select(x => x.RoleName).ToArray()
+               }
+            ).FirstOrDefault();
+
+            return 0;
+
+        }
+
+        public int UpdateAccount(UpdateVM updateVM)
+        {
+            
+        /*{
+           "FirstName": "Ayu",
+           "LastName": "Aulia",
+           "Phone": "098834425",
+           "BirthDate": "2000-03-23",
+           "Gender": 0,
+           "Salary": 1800000,
+           "Email": "aulia@gmail.com",
+           "Password": "password",
+           "Degree": "S1",
+           "GPA": "3.5",
+           "UniversityId": 3
+        }*/
+
+    var employee = myContext.Employees.SingleOrDefault(e => e.NIK == updateVM.NIK);
+            if (employee != null)
+            {
+                ValidationCheckForUpdate(updateVM.NIK, updateVM.Phone, "Phone");
+                ValidationCheckForUpdate(updateVM.NIK, updateVM.Email, "Email");
+
+        employee.FirstName = updateVM.FirstName;
+                employee.LastName = updateVM.LastName;
+                employee.Phone = updateVM.Phone;
+                employee.BirthDate = updateVM.BirthDate;
+                employee.Salary = updateVM.Salary;
+                employee.Email = updateVM.Email;
+
+                myContext.SaveChanges();
+            }
+
+        return 0;
+        }
+
+        private void ValidationCheckForUpdate(string nik, string value, string field)
+        {
+            if (field == "Phone")
+            {
+                var checkPhone = myContext.Employees.Any(e => e.Phone == value && e.NIK != nik);
+                if (checkPhone) throw new Exception("Nomor telepon sudah digunakan!");
+            }
+            else if (field == "Email")
+            {
+                var checkEmail = myContext.Employees.Any(e => e.Email == value && e.NIK != nik);
+                if (checkEmail) throw new Exception("Email sudah digunakan!");
+            }
         }
 
         public int ForgotPassword(ForgotPassVM forgotPassVM)
